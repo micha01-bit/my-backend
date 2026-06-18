@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Задание
 
-## Getting Started
+**Создать сервер на Node.js с использование модулей Http и Fs.**
 
-First, run the development server:
+Создать http сервер, который будет запускаться по адресу `127.0.0.1:3003`.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Установить пакет [nodemon](https://www.npmjs.com/package/nodemon), настроить его запуск.
+
+Написать обработчик входящего запроса:
+
+- Ответом на запрос `?hello=<name>` должна быть **строка** `Hello, <name>.`, код ответа 200.
+- Если параметр `hello` указан, но не передано `<name>`, то ответ **строка** `Enter a name`, код ответа 400.
+- Ответом на запрос `?users` должен быть **JSON** с содержимым файла `data/users.json`, код ответа 200.
+- Если никакие параметры не переданы, то ответ **строка** `Hello, World!`, код ответа 200.
+- Если переданы какие-либо другие параметры, то пустой ответ, код ответа 500.
+
+## Чеклист для самопроверки
+
+- [ ] В файле package.json в секции scripts есть `dev` который запускает nodemon и `start` который запускает сервер в
+  обычном режиме.
+- [ ] Чтение файла с пользователями происходит в отдельном модуле, который подключается в главный файл.
+- [ ] Для указания пути при чтении файла используется модуль `path`.
+- [ ] Порт, на котором происходит запуск сервера, передается через переменную окружения (по умолчанию 3000).
+- [ ] После запуска сервера в консоль выводится сообщение о том по какому адресу и на каком порту запущен сервер.
+- [ ] В зависимости от того какой ответ отдается - меняется 'Content-Type'.
+
+## Подсказки
+
+### Работа с GET-параметрами
+
+Для более удобного доступа к параметрам GET-запроса можно использовать
+класс [URL](https://developer.mozilla.org/en-US/docs/Web/API/URL_API)
+и [searchParams](https://developer.mozilla.org/ru/docs/Web/API/URLSearchParams).
+
+```js
+const url = new URL(request.url, 'http://127.0.0.1');
+console.log(url);
+console.log(url.searchParams);
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Справочник по Content-Type
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+В [справочнике](https://www.iana.org/assignments/media-types/media-types.xhtml) в столбце _Name_ указывается что за тип
+данных, а столбце _Template_ какой следует указывать Content-Type.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
